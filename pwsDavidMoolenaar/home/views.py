@@ -13,7 +13,7 @@ def user_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return render(request, 'home/logged_in.html')
+                return render(request, 'kerkdiensten/kerkdiensten.html')
             else:
                 return render(request, 'home/login.html')
         else:
