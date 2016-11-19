@@ -4,6 +4,5 @@ from pwsDavidMoolenaar.views import home
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^home/', include('home.urls')),
-    url(r'^$', home),
+    url(r'^', include('home.urls')),
 ]
