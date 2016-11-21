@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import UserForm
 
 def index(request):
@@ -13,7 +13,8 @@ def user_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return render(request, 'kerkdiensten/kerkdiensten.html')
+                #return render(request, 'kerkdiensten/kerkdiensten.html')
+                return redirect('kerkdiensten:index')
             else:
                 return render(request, 'home/login.html')
         else:
