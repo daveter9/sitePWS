@@ -123,3 +123,4 @@ STATIC_URL = '/static/'
 
 #login dingen
 LOGIN_REDIRECT_URL = 'kerkdiensten:index'
+LOGIN_URL = 'home:login'

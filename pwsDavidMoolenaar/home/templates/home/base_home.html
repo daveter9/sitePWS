@@ -2,7 +2,11 @@
 {% block navitems %}
 <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="{% url 'home:user_login'%}">Login</a></li>
+        {% if user.is_authenticated %}
+            <li class=""><a href="{% url 'home:logout' %}">Uitloggen</a></li>
+        {% else %}
+            <li class=""><a href="{% url 'home:login' %}">Inloggen</a></li>
+        {% endif %}
     </ul>
 </div>
 {% endblock navitems%}

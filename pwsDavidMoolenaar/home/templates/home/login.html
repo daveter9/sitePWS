@@ -9,7 +9,7 @@
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
-                    <form class="form-horizontal" role="form" action="{% url 'home:user_login'%}" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" action="{% url 'home:login'%}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="id_username">
@@ -35,7 +35,7 @@
                     </form>
                 </div>
                 <div class="panel-footer">
-                    Don't have an account? <a href="{% url 'home:user_register'%}">Click here</a> to register.
+                    Don't have an account? <a href="{% url 'home:register' %}">Click here</a> to register.
                 </div>
             </div>
         </div>

@@ -5,8 +5,8 @@
         <li><a href="{% url 'kerkdiensten:index' %}">Kerkdiensten</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Account</a></li>
-        <li><a href="#">Uitloggen</a></li>
+        <li><a href="{% url 'kerkdiensten:profile' %}">Account</a></li>
+        <li><a href="{% url 'home:logout' %}">Uitloggen</a></li>
     </ul>
 </div>
 {% endblock navitems%}
