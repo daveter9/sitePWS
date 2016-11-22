@@ -1,6 +1,8 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .forms import UserForm
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 def index(request):
     return render(request, 'home/index.html')
@@ -14,7 +16,7 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
                 #return render(request, 'kerkdiensten/kerkdiensten.html')
-                return redirect('kerkdiensten:index')
+                #return HttpResponseRedirect(reverse('kerkdiensten:index', kwargs={'test':'doe de vreugdepier'}))
             else:
                 return render(request, 'home/login.html')
         else:
