@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Kerken, User_details
 
-# Register your models here.
+admin.site.register(Kerken)
+admin.site.register(User_details)

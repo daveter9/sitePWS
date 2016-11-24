@@ -2,4 +2,19 @@
 {% block body %}
 Dit is de kerkdiensten ding
 <h4>Welkom {{ user.username }}!</h4>
+{% if kerk %}
+<h4>je zit in kerk {{ kerk.kerk.kerk_naam }}</h4>
+{% endif %}
+{% if kerk_keuze %}
+<h4>Kies een kerk:</h4>
+<form action="{% url 'kerkdiensten:voeg_kerk_toe' %}" method="post">
+    <select name="kerk_pk">
+    {% for kerk in kerk_keuze %}
+    <option value="{{ kerk.pk }}">{{ kerk.kerk_naam }}</option>
+    {% endfor %}
+    </select><br/>
+    {% csrf_token %}
+    <button type="submit">Kies kerk!</button>
+</form>
+{% endif %}
 {% endblock body %}

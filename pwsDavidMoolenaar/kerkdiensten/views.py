@@ -1,10 +1,24 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from .models import User_details, Kerken
 
 @login_required
 def index(request):
-    return render(request, 'kerkdiensten/kerkdiensten.html')
+    try:
+      kerk = User_details.objects.get(user=request.user)
+    except User_details.DoesNotExist:
+        kerken = Kerken.objects.all()
+        return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk_keuze': kerken})
+    return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk': kerk,})
 
 @login_required
 def profile(request):
     return render(request, 'kerkdiensten/profile.html')
+
+@login_required
+def kerk_add(request):
+    kerk_pk = request.POST['kerk_pk']
+    kerk_to_get = get_object_or_404(Kerken, pk=kerk_pk)
+    row = User_details(user=request.user, kerk=kerk_to_get)
+    row.save()
+    return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk': row,})

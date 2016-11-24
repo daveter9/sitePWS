@@ -6,3 +6,6 @@ class Images(models.Model):
 
     def __str__(self):
         return self.image_name
+
+    class Meta:
+        verbose_name_plural = 'images'
