@@ -1,4 +1,9 @@
 {% extends 'kerkdiensten/base_kerkdiensten.html' %}
 {% block body %}
 <h1>Profielpagina van: {{ user.username }}</h1>
+{% if payload %}
+{% for item in payload %}
+<h2>{{ item }}</h2>
+{% endfor %}
+{% endif %}
 {% endblock body %}

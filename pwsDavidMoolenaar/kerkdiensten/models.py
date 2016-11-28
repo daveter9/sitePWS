@@ -4,6 +4,7 @@ from django.db import models
 class User_details(models.Model):
     user = models.ForeignKey(User, default=1)
     kerk = models.ForeignKey('Kerken', default=None)
+    rollen = models.CharField(max_length=64)
 
     def __str__(self):
         return self.user.username

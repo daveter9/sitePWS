@@ -13,12 +13,14 @@ def index(request):
 
 @login_required
 def profile(request):
-    return render(request, 'kerkdiensten/profile.html')
+    user_rolls = get_object_or_404(User_details, user=request.user)
+    x = user_rolls.rollen.split(',')[:-1]
+    return render(request, 'kerkdiensten/profile.html', {'payload':x})
 
 @login_required
 def kerk_add(request):
     kerk_pk = request.POST['kerk_pk']
     kerk_to_get = get_object_or_404(Kerken, pk=kerk_pk)
-    row = User_details(user=request.user, kerk=kerk_to_get)
+    row = User_details(user=request.user, kerk=kerk_to_get, rollen='1,')
     row.save()
     return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk': row,})
