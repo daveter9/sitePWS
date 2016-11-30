@@ -21,3 +21,13 @@ class Kerken(models.Model):
 
     class Meta:
         verbose_name_plural = 'kerken'
+
+class Rollen(models.Model):
+    rollen = models.CharField(max_length=256)
+    rol_id = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.rollen
+
+    class Meta:
+        verbose_name_plural = 'rollen'

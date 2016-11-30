@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
-from .models import User_details, Kerken
+from .models import User_details, Kerken, Rollen
 
 @login_required
 def index(request):
@@ -15,7 +15,12 @@ def index(request):
 def profile(request):
     user_rolls = get_object_or_404(User_details, user=request.user)
     x = user_rolls.rollen.split(',')[:-1]
-    return render(request, 'kerkdiensten/profile.html', {'payload':x})
+    rollen_lijst = []
+    for rol in x:
+        y = get_object_or_404(Rollen, rol_id=rol)
+        rollen_lijst.append(y)
+    print(x, rollen_lijst)
+    return render(request, 'kerkdiensten/profile.html', {'payload':rollen_lijst})
 
 @login_required
 def kerk_add(request):
