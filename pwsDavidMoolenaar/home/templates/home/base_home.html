@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 {% block navitems %}
 <div class="collapse navbar-collapse">
+    {% if user.is_authenticated %}
+    <ul class="nav navbar-nav">
+        <li><a href="{% url 'kerkdiensten:index' %}">Kerkdiensten</a></li>
+    </ul>
+    {% endif %}
     <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
-            <li class=""><a href="{% url 'home:logout' %}">Uitloggen</a></li>
+        <li><a href="{% url 'kerkdiensten:profile' %}">Account</a></li>
+        <li class=""><a href="{% url 'home:logout' %}">Uitloggen</a></li>
         {% else %}
-            <li class=""><a href="{% url 'home:login' %}">Inloggen</a></li>
+        <li class=""><a href="{% url 'home:login' %}">Inloggen</a></li>
         {% endif %}
     </ul>
 </div>

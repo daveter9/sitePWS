@@ -5,6 +5,12 @@ Dit is de kerkdiensten ding
 {% if kerk %}
 <h4>je zit in kerk {{ kerk.kerk.kerk_naam }}</h4>
 {% endif %}
+{% if kerk_diensten %}
+{% for dienst in kerk_diensten %}
+<a href="{% url 'kerkdiensten:dienst' dienst.pk %}">{{ dienst.start_time|date:"l, j F" }}
+<b>{{ dienst.soort_dienst}}</b></a><br />
+{% endfor %}
+{% endif %}
 {% if kerk_keuze %}
 <h4>Kies een kerk:</h4>
 <form action="{% url 'kerkdiensten:voeg_kerk_toe' %}" method="post">

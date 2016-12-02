@@ -1,0 +1,8 @@
+{% extends 'kerkdiensten/base_kerkdiensten.html' %}
+{% block body %}
+<h1>Hier zie je een dienst</h1>
+<b>Datum:</b>{{ dienst.start_time|date:"l, j F" }}<br />
+<b>Soort dienst:</b>{{ dienst.soort_dienst}}<br />
+<b>Kerk:</b>{{ dienst.kerk.kerk_naam }}<br />
+
+{% endblock body %}
