@@ -1,8 +1,16 @@
 from django.contrib import admin
 from .models import Kerken, User_details, Rollen, Kerkdiensten, DienstSoorten
 
+class KerkdienstenAdmin(admin.ModelAdmin):
+    model = Kerkdiensten
+    filter_horizontal = ('beschikbaar',)
+
+class User_detailsAdmin(admin.ModelAdmin):
+    model = User_details
+    filter_horizontal = ('rollen_v2',)
+
 admin.site.register(Kerken)
-admin.site.register(User_details)
 admin.site.register(Rollen)
-admin.site.register(Kerkdiensten)
 admin.site.register(DienstSoorten)
+admin.site.register(User_details, User_detailsAdmin)
+admin.site.register(Kerkdiensten, KerkdienstenAdmin)
