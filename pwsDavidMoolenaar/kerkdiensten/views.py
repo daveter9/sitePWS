@@ -16,14 +16,25 @@ def index(request):
     for rolz in user_details.rollen_v2.all().filter(beschikbaarheid=True):
         rollen_lijst.append(rolz)
 
+    beschikbaarheid_lijst = []
     for dienst in kerk_diensten:
         print(dienst, dienst.beschikbaar)
         if request.user in dienst.beschikbaar.all():
+            beschikbaarheid_lijst.append(dienst)
             print('yay')
         else:
             print('nee')
 
-    return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk': kerk, 'kerk_diensten':kerk_diensten, 'rollen_lijst':rollen_lijst})
+    post_lijst = []
+    if request.method == 'POST':
+        for item in request.POST:
+            post_lijst.append(item)
+
+        x = request.POST.getlist('Muzikant')
+        print(x)
+        return render(request, 'kerkdiensten/kerkdiensten.html',{'kerk': kerk, 'kerk_diensten': kerk_diensten, 'rollen_lijst': rollen_lijst, 'beschikbaar': beschikbaarheid_lijst, 'post_x':x,})
+    else:
+        return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk': kerk, 'kerk_diensten':kerk_diensten, 'rollen_lijst':rollen_lijst, 'beschikbaar':beschikbaarheid_lijst,})
 
 @login_required
 def profile(request):
