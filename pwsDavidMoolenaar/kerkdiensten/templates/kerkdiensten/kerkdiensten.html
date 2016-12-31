@@ -31,9 +31,9 @@
         </tr>
         {% for dienst in kerk_diensten %}
         <tr>
-            <td><a href="{% url 'kerkdiensten:dienst' dienst.pk %}">{{ dienst.start_time|date:"l, j F" }}</td>
+            <td><a href="{% url 'kerkdiensten:dienst' dienst.pk %}"><!--{{ dienst.start_time|date:"l, j F" }}-->{{ dienst }}</td>
             {% for rolx in rollen_lijst %}
-            <td><input type="checkbox" name="{{ rolx }}" value="{{ dienst.pk }}" {% if dienst in beschikbaar %} checked {% endif %}></td>
+            <td><input type="checkbox" name="{{ rolx }}" value="{{ dienst.pk }}" {% for beschikte in beschikbaar %} {% if dienst.pk == beschikte.0 %} {% if rolx.rollen == beschikte.1 %} checked {% endif %} {% endif %} {% endfor %}></td>
             {% endfor %}
         </tr>
         {% endfor %}
@@ -41,10 +41,5 @@
     <input type="submit" value="Opslaan"></input>
 </form>
 <br />
-{% if post_x %}
-{% for thingy in post_x %}
-{{ thingy }}
-{% endfor %}
-{% endif %}
 
 {% endblock body %}

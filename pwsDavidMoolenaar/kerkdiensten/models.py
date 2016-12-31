@@ -5,7 +5,6 @@ from django.db import models
 class User_details(models.Model):
     user = models.ForeignKey(User, default=1)
     kerk = models.ForeignKey('Kerken', default=None)
-    rollen = models.CharField(max_length=64)
     rollen_v2 = models.ManyToManyField('Rollen', blank=True)
 
     def __str__(self):
@@ -39,7 +38,8 @@ class Kerkdiensten(models.Model):
     kerk = models.ForeignKey('Kerken', default=None)
     start_time = models.DateField()
     soort_dienst = models.ForeignKey('DienstSoorten', default='kerkdienst')
-    beschikbaar = models.ManyToManyField(User, blank=True)
+    beschikbaar = models.ManyToManyField('UserRoll', default=None, blank=True, related_name='kerkdienst_beschikbaar')
+    ingeroosterd = models.ManyToManyField('UserRoll', default=None, blank=True, related_name='kerkdienst_ingeroosterd')
 
     def __str__(self):
         return self.kerk.kerk_naam + ', ' + self.start_time.strftime('%d %B %Y')
@@ -55,3 +55,13 @@ class DienstSoorten(models.Model):
 
     class Meta:
         verbose_name_plural = 'dienstsoorten'
+
+class UserRoll(models.Model):
+    user = models.ForeignKey(User)
+    rol = models.ForeignKey(Rollen)
+
+    def __str__(self):
+        return self.user.username + ':' + self.rol.rollen
+
+    class Meta:
+        verbose_name_plural = 'UserRoll'

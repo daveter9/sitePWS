@@ -1,6 +1,7 @@
 {% extends 'kerkdiensten/base_kerkdiensten.html' %}
 {% block body %}
 <h1>Profielpagina van: {{ user.username }}</h1>
+
 {% if user_details %}
 {% for item in user_details.rollen_v2.all %}
 <h4>{{ item }}</h4>

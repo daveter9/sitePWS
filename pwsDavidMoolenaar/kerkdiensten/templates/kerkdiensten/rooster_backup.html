@@ -1,0 +1,37 @@
+{% extends 'kerkdiensten/base_kerkdiensten.html' %}
+{% block body %}
+
+<h1>Welkom op de rooster maak pagina!</h1>
+
+{% for key, value in dcv2.items %}
+    {{ key }}
+    {{ value }}
+{% endfor %}
+<br />
+
+{% for dienst in kerk_diensten %}
+    {{ dienst.pk }}
+{% endfor %}
+
+
+{% for kerkDienst in kerk_diensten %}
+<h2>{{ kerkDienst }}</h2>
+
+{% for rol in rollen %}
+{% if rol.beschikbaarheid %}
+
+{{ rol }} <br />
+
+{{ dcv2.kerkDienst }}
+
+{% for key, value in dcv2.kerkDienst.items %}
+    {% if key == rol.rollen %}
+    {{ value }} <br />
+    {% endif %}
+{% endfor %}
+
+{% endif %}
+{% endfor %}
+{% endfor%}
+
+{% endblock body %}

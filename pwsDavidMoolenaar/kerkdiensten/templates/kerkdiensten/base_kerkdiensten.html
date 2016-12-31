@@ -3,6 +3,11 @@
 <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
         <li><a href="{% url 'kerkdiensten:index' %}">Kerkdiensten</a></li>
+        {% for rollh in user_details.rollen_v2.all %}
+        {% if rollh.rollen == 'Roostermaker' %}
+        <li><a href="{% url 'kerkdiensten:rooster' %}">Roosters</a></li>
+        {% endif %}
+        {% endfor %}
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li><a href="{% url 'kerkdiensten:profile' %}">Account</a></li>

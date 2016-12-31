@@ -1,0 +1,52 @@
+{% extends 'kerkdiensten/base_kerkdiensten.html' %}
+{% load gen_iter %}
+{% block body %}
+<h1>Welkom op de rooster maak pagina!</h1>
+<form action="#" method="post">
+    {% csrf_token %}
+    {% for kerkDienst in kerk_diensten%}
+    <h2>{{kerkDienst}}</h2>
+    {% for rol in rollen %}
+    {% if rol.beschikbaarheid %}
+    <h3>{{rol}}</h3>
+    {% for ding in kerkDienst.beschikbaar.all %}
+    {% if ding.rol == rol %}
+    <b>{{ding.user}}</b> <input type="checkbox" name="{{ ding.pk }}" value="{{ kerkDienst.pk}}">
+    <br />
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+</form>
+
+<table>
+    <tr>
+        <th>Muzikant</th>
+        <th>Techniek</th>
+        <th>Beamer</th>
+    </tr>
+    <tr>
+        <td>test<input type="checkbox"></td>
+        <td>david<input type="checkbox"></td>
+    </tr>
+
+</table>
+
+<h1>Poging 2</h1>
+
+{% for kerkDienst in kerk_diensten%}
+<h3>{{ kerkDienst }}</h3>
+<table>
+    <tr>
+        {% for rol in rollen %}
+        {% if rol.beschikbaarheid %}
+        <th>{{ rol }}</th>
+        {% endif %}
+        {% endfor %}
+    </tr>
+
+</table>
+{% endfor %}
+
+{% endblock body %}
