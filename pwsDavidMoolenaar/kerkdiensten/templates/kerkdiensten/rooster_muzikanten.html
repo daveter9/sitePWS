@@ -1,0 +1,14 @@
+{% extends 'kerkdiensten/base_kerkdiensten.html' %}
+{% block body %}
+<h1>Pagina muzikanten rooster</h1>
+<table>
+    {% for row in superList %}
+    <tr>
+        {% for col in row %}
+        <td style="padding-left:10px;" >{{ col }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock body %}

@@ -5,7 +5,7 @@ from django.db import models
 class User_details(models.Model):
     user = models.ForeignKey(User, default=1)
     kerk = models.ForeignKey('Kerken', default=None)
-    rollen_v2 = models.ManyToManyField('Rollen', blank=True)
+    rollen_v2 = models.ManyToManyField('Rollen', blank=True, related_name='user_details_rollen_v2')
 
     def __str__(self):
         return self.user.username
@@ -39,6 +39,7 @@ class Kerkdiensten(models.Model):
     start_time = models.DateField()
     soort_dienst = models.ForeignKey('DienstSoorten', default='kerkdienst')
     beschikbaar = models.ManyToManyField('UserRoll', default=None, blank=True, related_name='kerkdienst_beschikbaar')
+    beschikbaarheid_open = models.BooleanField(default=True)
     ingeroosterd = models.ManyToManyField('UserRoll', default=None, blank=True, related_name='kerkdienst_ingeroosterd')
 
     def __str__(self):
@@ -56,12 +57,32 @@ class DienstSoorten(models.Model):
     class Meta:
         verbose_name_plural = 'dienstsoorten'
 
+class Instrumenten(models.Model):
+    instrument = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.instrument
+
+    class Meta:
+        verbose_name_plural = 'instrumenten'
+
 class UserRoll(models.Model):
     user = models.ForeignKey(User)
     rol = models.ForeignKey(Rollen)
+    instrument = models.ForeignKey('Instrumenten', null=True, blank=True)
 
     def __str__(self):
         return self.user.username + ':' + self.rol.rollen
 
     class Meta:
         verbose_name_plural = 'UserRoll'
+
+class MuziekTeams(models.Model):
+    team = models.CharField(max_length=256)
+    leden = models.ManyToManyField('UserRoll', blank=True)
+
+    def __str__(self):
+        return self.team
+
+    class Meta:
+        verbose_name_plural = 'MuziekTeams'

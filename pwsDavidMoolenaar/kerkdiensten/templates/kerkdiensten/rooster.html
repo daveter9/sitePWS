@@ -2,51 +2,38 @@
 {% load gen_iter %}
 {% block body %}
 <h1>Welkom op de rooster maak pagina!</h1>
-<form action="#" method="post">
+<a href="{% url 'kerkdiensten:rooster_muzikanten' %}">Maak rooster voor muzikanten</a>
+<form method="post" action="{% url 'kerkdiensten:toggle_beschikbaarheid' %}">
     {% csrf_token %}
-    {% for kerkDienst in kerk_diensten%}
-    <h2>{{kerkDienst}}</h2>
-    {% for rol in rollen %}
-    {% if rol.beschikbaarheid %}
-    <h3>{{rol}}</h3>
-    {% for ding in kerkDienst.beschikbaar.all %}
-    {% if ding.rol == rol %}
-    <b>{{ding.user}}</b> <input type="checkbox" name="{{ ding.pk }}" value="{{ kerkDienst.pk}}">
-    <br />
-    {% endif %}
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
-    {% endfor %}
+    <input type="submit" value="{% if kerk_diensten.0.beschikbaarheid_open %}Beschikbaarheid vastzetten{% else %}Beschikbaarheid openen{% endif %}">
 </form>
-
-<table>
-    <tr>
-        <th>Muzikant</th>
-        <th>Techniek</th>
-        <th>Beamer</th>
-    </tr>
-    <tr>
-        <td>test<input type="checkbox"></td>
-        <td>david<input type="checkbox"></td>
-    </tr>
-
-</table>
-
-<h1>Poging 2</h1>
-
-{% for kerkDienst in kerk_diensten%}
-<h3>{{ kerkDienst }}</h3>
-<table>
-    <tr>
-        {% for rol in rollen %}
-        {% if rol.beschikbaarheid %}
-        <th>{{ rol }}</th>
-        {% endif %}
+<br />
+{% for kerkDienst in kerkDienstDict %}
+<form action="{% url 'kerkdiensten:maak_rooster' %}" method="post">
+    {% csrf_token %}
+    <h2>{{ kerkDienst }}</h2>
+    <table>
+        <tr>
+            {% for rol in rollenv2 %}
+            <th style="padding-left:10px;">{{ rol }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in kerkDienstDict|dictkey:kerkDienst %}
+        <tr>
+            {% for col in row %}
+            {% if col.user %}
+            <td style="padding-left:10px;">{{col.user}}{% if not col.instrument == None %}:{{ col.instrument }}{% endif %}<input type="checkbox" name="{{ kerkDienst.pk }}" value="{{ col }}" {% if col in ingeroosterdDict|dictkey:kerkDienst %} checked {% endif %}></td>
+            {% else %}
+            <td style="padding-left:10px;">-</td>
+            {% endif %}
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </tr>
-
-</table>
+    </table>
+    <input type="submit" value="Opslaan">
+</form>
 {% endfor %}
+<br />
+
 
 {% endblock body %}

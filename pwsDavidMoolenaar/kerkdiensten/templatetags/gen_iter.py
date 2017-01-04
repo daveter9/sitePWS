@@ -8,3 +8,18 @@ def dj_iter(gen):
        return next(gen)
     except StopIteration:
        return 'Completed Iteration'
+
+@register.filter(name='dictkey')
+def keyvalue(dict, key):
+    return dict[key]
+
+@register.filter(name='listindex')
+def listindex(list, key):
+    return list[key]
+
+@register.filter(name='attribute')
+def getattribute(object, attributeToGet):
+    try:
+        return getattr(object, attributeToGet)
+    except:
+        return None

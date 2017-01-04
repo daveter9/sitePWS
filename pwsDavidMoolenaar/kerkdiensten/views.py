@@ -1,6 +1,7 @@
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import User_details, Kerken, Rollen, Kerkdiensten, UserRoll
+from .models import User_details, Kerken, Rollen, Kerkdiensten, UserRoll, MuziekTeams, Instrumenten
 from collections import Counter
 
 @login_required
@@ -54,13 +55,22 @@ def index(request):
                         dienst.beschikbaar.remove(userRoll)
 
     beschikbaarheid_lijst = []
+    ingeroosterdDict = {}
     for dienst in kerk_diensten:
+        ingeroosterd = dienst.ingeroosterd.all()
+
+        ingeroosterdDict[dienst] = []
+        for ingeroosterde in ingeroosterd:
+            if ingeroosterde.user == request.user:
+                ingeroosterdDict[dienst].append(ingeroosterde)
+
         beschikbaarheid = dienst.beschikbaar.all()
         for beschikte in beschikbaarheid:
             if beschikte.user == request.user:
                     beschikbaarheid_lijst.append((dienst.pk, beschikte.rol.rollen))
 
-    return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk': kerk, 'kerk_diensten': kerk_diensten, 'rollen_lijst': rollen_lijst, 'beschikbaar': beschikbaarheid_lijst, 'user_details':user_details})
+
+    return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk': kerk, 'kerk_diensten': kerk_diensten, 'rollen_lijst': rollen_lijst, 'beschikbaar': beschikbaarheid_lijst, 'user_details':user_details, 'ingeroosterdDict':ingeroosterdDict})
 
 @login_required
 def profile(request):
@@ -87,37 +97,158 @@ def dienst(request, dienst_id):
     return render(request, 'kerkdiensten/dienst.html', {'dienst':dienst})
 
 @login_required
+def toggle_beschikbaarheid(request):
+    user_details = User_details.objects.get(user=request.user)
+    kerkdiensten = Kerkdiensten.objects.all().filter(kerk=user_details.kerk)
+    for kerkdienst in kerkdiensten:
+        kerkdienst.beschikbaarheid_open = not kerkdienst.beschikbaarheid_open
+        kerkdienst.save()
+
+    return redirect('kerkdiensten:rooster')
+
+@login_required
 def rooster(request):
     user_details = User_details.objects.get(user=request.user)
     kerk_diensten = Kerkdiensten.objects.all().filter(kerk=user_details.kerk)
     rollen = Rollen.objects.all()
-    rollenv2 = Rollen.objects.all().filter(beschikbaarheid=True)
+    rollenv2 = Rollen.objects.all().filter(beschikbaarheid=True).exclude(rollen='Muzikant')
+
 
     kerkDienst = kerk_diensten[1]
     kerkDienstBeschikbaarheid = kerkDienst.beschikbaar.all()
+
 
     #krijg alle beschikbaarheid van een bepaalde rol, met invoer een rolnaam
     def get_items(itemToGet, beschikbaarheid):
         x = []
         for beschikte in beschikbaarheid:
-            if beschikte.rol.rollen == itemToGet:
+            if beschikte.rol == itemToGet:
                 x.append(beschikte)
-        return x
+        y = len(x)
+        return x, y
 
-    xLijst = [1,2]
-    maxRows = max(Counter(xLijst).values())
+    kerkDienstDict = {}
+    ingeroosterdDict = {}
+    for kerkDienst in kerk_diensten:
+        kerkDienstBeschikbaarheid = kerkDienst.beschikbaar.all()
 
-    #maak een dict van rollen met alles useroll objecten
-    yDict = {}
-    for rol in rollenv2:
-        itemsToGet = get_items(rol.rollen, kerkDienstBeschikbaarheid)
-        yDict[rol] = itemsToGet
+        yDict = {}
+        maxRows = 0
+        for rol in rollenv2:
+            itemsToGet, length = get_items(rol, kerkDienstBeschikbaarheid)
+            if length > maxRows:
+                maxRows = length
+            yDict[rol] = itemsToGet
 
-    print(yDict)
+        endList = []
+        for i in range(maxRows):
+            endList.append([])
+            for rol in rollenv2:
+                try:
+                    endList[i].append(yDict[rol][i])
+                except:
+                    endList[i].append(None)
+
+        kerkDienstDict[kerkDienst] = endList
+        ingeroosterdDict[kerkDienst] = kerkDienst.ingeroosterd.all()
 
 
-    print(rollenv2)
-    gen = False
-    x = [{'name':'david'},{'name':'george'}]
 
-    return render(request, 'kerkdiensten/rooster.html', {'user_details':user_details, 'kerk_diensten':kerk_diensten, 'rollen':rollen, 'gen':gen})
+    return render(request, 'kerkdiensten/rooster.html', {'user_details':user_details, 'kerk_diensten':kerk_diensten, 'rollen':rollen, 'rollenv2':rollenv2, 'kerkDienstDict':kerkDienstDict, 'ingeroosterdDict':ingeroosterdDict,})
+
+@login_required()
+def rooster_maak(request):
+    print(request.POST)
+    for item in request.POST:
+        try:
+            int(item)
+            postLijst = request.POST.getlist(item)
+            print(postLijst)
+            kerkdienstToGet = get_object_or_404(Kerkdiensten, pk=int(item))
+            ingeroosterdToGet = kerkdienstToGet.ingeroosterd.all()
+            xLijst = []
+            for postItem in postLijst:
+                postItem = postItem.split(':')
+                userToGet = get_object_or_404(User, username=postItem[0])
+                rolToGet = get_object_or_404(Rollen, rollen=postItem[1])
+
+                userRollToGet = get_object_or_404(UserRoll, user=userToGet, rol=rolToGet)
+                xLijst.append(userRollToGet)
+
+            for ingeroosterde in ingeroosterdToGet:
+                if ingeroosterde not in xLijst:
+                    kerkdienstToGet.ingeroosterd.remove(ingeroosterde)
+
+            for xItem in xLijst:
+                kerkdienstToGet.ingeroosterd.add(xItem)
+            print(xLijst, ingeroosterdToGet)
+        except:
+            pass
+
+    return redirect('kerkdiensten:rooster')
+
+@login_required
+def rooster_muzikanten(request):
+    user_details = User_details.objects.get(user=request.user)
+    kerkdiensten = Kerkdiensten.objects.all().filter(kerk=user_details.kerk)
+    muziekTeams = MuziekTeams.objects.all()
+
+
+    superList = []
+    kerkdienstDict = {}
+    superList.append([])
+    superList[0].append('-')
+    for kerkdienst in kerkdiensten:
+        kerkdienstString = '{}:{}'.format(kerkdienst.start_time, kerkdienst.soort_dienst)
+        superList[0].append(kerkdienstString)
+        kerkdienstDict[kerkdienst] = kerkdienst.beschikbaar.all()
+    counter = len(superList)
+
+    for muziekTeam in muziekTeams:
+        superList.append([])
+        superList[counter].append(muziekTeam.team)
+        counter += 1
+        for lid in muziekTeam.leden.all():
+            superList.append([])
+            lidString = '{}:{}'.format(lid.user, lid.instrument)
+            superList[counter].append(lidString)
+
+            for kerkdienst in kerkdiensten:
+                if lid in kerkdienstDict[kerkdienst]:
+                    superList[counter].append('beschikbaar')
+                else:
+                    superList[counter].append('n/a')
+
+            counter += 1
+
+    def krijg_instrumenten(muziekTeam):
+        instrumentenLijst = set()
+        ledenLijst = []
+        for lid in muziekTeam.leden.all():
+            ledenLijst.append(lid)
+            if lid.instrument.instrument != 'Zang':
+                instrumentenLijst.add(lid.instrument)
+        return instrumentenLijst, ledenLijst
+
+    def check_team_aanwezig(instrumenten, kerkdienstx, ledenLijst):
+        beschikbaarheid = kerkdienstx.beschikbaar.all()
+        print('beschikbaarheid: ' + str(beschikbaarheid))
+        for beschikte in beschikbaarheid:
+            if beschikte in ledenLijst:
+                if beschikte.rol.rollen == 'Muzikant':
+                    if beschikte.instrument in instrumenten:
+                        instrumenten.remove(beschikte.instrument)
+        if not instrumenten:
+            return True
+        else:
+            return False
+
+    x = muziekTeams[1]
+    x1, x2 = krijg_instrumenten(x)
+    print('x1: ' + str(x1))
+    y = kerkdiensten[1]
+    y1 = check_team_aanwezig(x1, y, x2)
+    print(y1)
+    #print(superList)
+
+    return render(request, 'kerkdiensten/rooster_muzikanten.html', {'superList':superList})
