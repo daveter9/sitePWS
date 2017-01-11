@@ -23,3 +23,7 @@ def getattribute(object, attributeToGet):
         return getattr(object, attributeToGet)
     except:
         return None
+
+@register.filter(name='typecheck')
+def checktype(var, iType):
+    return type(var).__name__ == str(iType)

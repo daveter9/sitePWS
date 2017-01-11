@@ -193,12 +193,50 @@ def rooster_muzikanten(request):
     kerkdiensten = Kerkdiensten.objects.all().filter(kerk=user_details.kerk)
     muziekTeams = MuziekTeams.objects.all()
 
+    def krijg_instrumenten(muziekTeam):
+        instrumentenLijst = set()
+        ledenLijst = []
+        for lid in muziekTeam.leden.all():
+            ledenLijst.append(lid)
+            if lid.instrument.instrument != 'Zang':
+                instrumentenLijst.add(lid.instrument)
+        return instrumentenLijst, ledenLijst
+
+    def check_team_aanwezig(instrumenten, kerkdienstx, ledenLijst):
+        beschikbaarheid = kerkdienstx.beschikbaar.all()
+        #print('beschikbaarheid: ' + str(beschikbaarheid))
+        for beschikte in beschikbaarheid:
+            if beschikte in ledenLijst:
+                if beschikte.rol.rollen == 'Muzikant':
+                    if beschikte.instrument in instrumenten:
+                        instrumenten.remove(beschikte.instrument)
+        if not instrumenten:
+            return True
+        else:
+            return False
+
+    """
+    x = muziekTeams[1]
+    x1, x2 = krijg_instrumenten(x)
+    print('x1: ' + str(x1))
+    y = kerkdiensten[1]
+    y1 = check_team_aanwezig(x1, y, x2)
+    print(y1)
+    """
 
     superList = []
+    volledigTeamDict = {}
     kerkdienstDict = {}
     superList.append([])
     superList[0].append('-')
     for kerkdienst in kerkdiensten:
+        volledigTeamDict[kerkdienst] = []
+        for muziekTeamX in muziekTeams:
+            muziekTeamXInstrumenten, muziekTeamXLeden = krijg_instrumenten(muziekTeamX)
+            if check_team_aanwezig(muziekTeamXInstrumenten, kerkdienst, muziekTeamXLeden):
+                volledigTeamDict[kerkdienst].append(muziekTeamX)
+
+
         kerkdienstString = '{}:{}'.format(kerkdienst.start_time, kerkdienst.soort_dienst)
         superList[0].append(kerkdienstString)
         kerkdienstDict[kerkdienst] = kerkdienst.beschikbaar.all()
@@ -215,40 +253,30 @@ def rooster_muzikanten(request):
 
             for kerkdienst in kerkdiensten:
                 if lid in kerkdienstDict[kerkdienst]:
-                    superList[counter].append('beschikbaar')
+                    if muziekTeam in volledigTeamDict[kerkdienst]:
+                        superList[counter].append('beschikbaar (!) <input type="checkbox" name="'+str(kerkdienst.pk)+':'+str(muziekTeam.pk)+'" value="'+str(lid.pk)+'">')
+                    else:
+                        superList[counter].append('beschikbaar <input type="checkbox" name="'+str(kerkdienst.pk)+':'+str(muziekTeam.pk)+'" value="'+str(lid.pk)+'">')
                 else:
                     superList[counter].append('n/a')
 
             counter += 1
+        superList.append([])
+        superList[counter].append('-')
+        for kerkdienst in kerkdiensten:
+            superList[counter].append('<a class="addTeam" id="'+str(kerkdienst.pk)+':'+str(muziekTeam.pk)+'">Voeg team toe</a>')
 
-    def krijg_instrumenten(muziekTeam):
-        instrumentenLijst = set()
-        ledenLijst = []
-        for lid in muziekTeam.leden.all():
-            ledenLijst.append(lid)
-            if lid.instrument.instrument != 'Zang':
-                instrumentenLijst.add(lid.instrument)
-        return instrumentenLijst, ledenLijst
+        counter += 1
 
-    def check_team_aanwezig(instrumenten, kerkdienstx, ledenLijst):
-        beschikbaarheid = kerkdienstx.beschikbaar.all()
-        print('beschikbaarheid: ' + str(beschikbaarheid))
-        for beschikte in beschikbaarheid:
-            if beschikte in ledenLijst:
-                if beschikte.rol.rollen == 'Muzikant':
-                    if beschikte.instrument in instrumenten:
-                        instrumenten.remove(beschikte.instrument)
-        if not instrumenten:
-            return True
-        else:
-            return False
-
-    x = muziekTeams[1]
-    x1, x2 = krijg_instrumenten(x)
-    print('x1: ' + str(x1))
-    y = kerkdiensten[1]
-    y1 = check_team_aanwezig(x1, y, x2)
-    print(y1)
-    #print(superList)
+    print(volledigTeamDict)
 
     return render(request, 'kerkdiensten/rooster_muzikanten.html', {'superList':superList})
+
+@login_required
+def rooster_muzikanten_maak(request):
+    if request.method == 'POST':
+        for item in request.POST:
+            print(item)
+        return redirect('kerkdiensten:rooster_muzikanten')
+    else:
+        return redirect('kerkdiensten:rooster_muzikanten')

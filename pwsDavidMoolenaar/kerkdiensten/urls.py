@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^rooster/$', views.rooster, name='rooster'),
     url(r'^rooster/maak_rooster/$', views.rooster_maak, name='maak_rooster'),
     url(r'rooster/zet_beschikbaarheid_vast', views.toggle_beschikbaarheid, name='toggle_beschikbaarheid'),
-    url(r'^rooster/muzikanten/$', views.rooster_muzikanten, name='rooster_muzikanten')
+    url(r'^rooster/muzikanten/$', views.rooster_muzikanten, name='rooster_muzikanten'),
+    url(r'^rooster/muzikanten/maak_rooster/$', views.rooster_muzikanten_maak, name='maak_muzikanten_rooster'),
 ]

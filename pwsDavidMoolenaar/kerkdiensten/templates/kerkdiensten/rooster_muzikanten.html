@@ -1,14 +1,27 @@
 {% extends 'kerkdiensten/base_kerkdiensten.html' %}
+
 {% block body %}
 <h1>Pagina muzikanten rooster</h1>
-<table>
-    {% for row in superList %}
-    <tr>
-        {% for col in row %}
-        <td style="padding-left:10px;" >{{ col }}</td>
+<form method="post" action="{% url 'kerkdiensten:maak_muzikanten_rooster' %}">
+    {% csrf_token %}
+    <table>
+        {% for row in superList %}
+        <tr>
+            {% for col in row %}
+            <td style="padding-left:10px;" >{{ col | safe }}</td>
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </tr>
-    {% endfor %}
-</table>
-
+    </table>
+    <input type="submit" value="Oplsaan">
+</form>
+<script>
+$(".addTeam").on('click', function () {
+    var checkboxName = $(this).attr('id');
+    $("input[name='"+checkboxName+"']").each(function () {
+        $(this).prop("checked", !$(this).prop("checked"));
+    });
+    $(this).text('Verwijder team');
+});
+</script>
 {% endblock body %}
