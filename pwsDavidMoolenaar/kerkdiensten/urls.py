@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'rooster/zet_beschikbaarheid_vast', views.toggle_beschikbaarheid, name='toggle_beschikbaarheid'),
     url(r'^rooster/muzikanten/$', views.rooster_muzikanten, name='rooster_muzikanten'),
     url(r'^rooster/muzikanten/maak_rooster/$', views.rooster_muzikanten_maak, name='maak_muzikanten_rooster'),
+    url(r'^leden/$', views.leden, name='leden'),
 ]

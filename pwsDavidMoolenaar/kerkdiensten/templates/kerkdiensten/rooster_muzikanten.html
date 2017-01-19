@@ -16,12 +16,53 @@
     <input type="submit" value="Oplsaan">
 </form>
 <script>
-$(".addTeam").on('click', function () {
-    var checkboxName = $(this).attr('id');
-    $("input[name='"+checkboxName+"']").each(function () {
-        $(this).prop("checked", !$(this).prop("checked"));
+$(document).ready(function(){
+    var checkboxSet = new Set();
+    $(':checkbox').each(function () {
+         checkboxSet.add($(this).attr('name'));
     });
-    $(this).text('Verwijder team');
+    for (let item of checkboxSet){
+        if ($('input[name="'+item+'"]').length == $('input[name="'+item+'"]:checked').length){
+            var textButton = $('a[id="'+item+'"]');
+            textButton.attr('class', 'removeTeam');
+            textButton.text('Verwijder team');
+        }
+    }
+
 });
+$(".addTeam").on('click', function () {
+
+    var checkboxName = $(this).attr('id');
+    var buttonClass = $(this).attr('class');
+    if (buttonClass == 'addTeam'){
+        $("input[name='"+checkboxName+"']").each(function () {
+            $(this).prop("checked", true);
+            checkboxChecker(this);
+        });
+        $(this).attr('class', 'removeTeam');
+        $(this).text('Verwijder team');
+    } else {
+        $("input[name='"+checkboxName+"']").each(function () {
+            $(this).prop("checked", false);
+            checkboxChecker(this);
+        });
+        $(this).attr('class', 'addTeam');
+        $(this).text('Voeg team toe');
+    }
+});
+$(':checkbox').change(function () {
+    checkboxChecker(this)
+});
+function checkboxChecker(cbx){
+    var stateGoto = $(cbx).prop('checked');
+    var muziekteam = $(cbx).attr('name').split(':')[0];
+    var user = $(cbx).attr('value');
+    $('input:checkbox[value^="'+user+'"]').each(function () {
+        var muziekteamCheck = $(this).attr('name').split(':')[0];
+        if (muziekteamCheck == muziekteam){
+            $(this).prop('checked', stateGoto);
+        }
+    });
+}
 </script>
 {% endblock body %}

@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
+{% load gen_iter %}
 {% block navitems %}
 <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
         <li><a href="{% url 'kerkdiensten:index' %}">Kerkdiensten</a></li>
-        {% for rollh in user_details.rollen_v2.all %}
+        {% for rollh in request.user|alleRollen %}
         {% if rollh.rollen == 'Roostermaker' %}
         <li><a href="{% url 'kerkdiensten:rooster' %}">Roosters</a></li>
+        {% endif %}
+        {% if rollh.rollen == 'Beheerder' %}
+        <li><a href="{% url 'kerkdiensten:leden' %}">Leden</a></li>
         {% endif %}
         {% endfor %}
     </ul>

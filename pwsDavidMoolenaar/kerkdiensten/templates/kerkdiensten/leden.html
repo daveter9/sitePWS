@@ -1,0 +1,8 @@
+{% extends 'kerkdiensten/base_kerkdiensten.html' %}
+{% block body %}
+<h1>Ledenpagina</h1>
+<h2>Hier kan je rollen aan leden toewijzen</h2>
+{% for lid in leden %}
+{{ lid }}<br />
+{% endfor %}
+{% endblock body %}

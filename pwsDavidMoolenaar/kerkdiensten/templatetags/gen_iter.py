@@ -1,4 +1,6 @@
 from django import template
+from django.shortcuts import get_object_or_404
+from kerkdiensten.models import User_details
 
 register = template.Library()
 
@@ -27,3 +29,8 @@ def getattribute(object, attributeToGet):
 @register.filter(name='typecheck')
 def checktype(var, iType):
     return type(var).__name__ == str(iType)
+
+@register.filter(name='alleRollen')
+def alleRollen(user):
+    userDetails = get_object_or_404(User_details, user=user)
+    return userDetails.rollen_v2.all()

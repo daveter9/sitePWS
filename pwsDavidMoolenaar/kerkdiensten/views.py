@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
@@ -227,6 +228,7 @@ def rooster_muzikanten(request):
     superList = []
     volledigTeamDict = {}
     kerkdienstDict = {}
+    kerkdienstDictIngeroosterd = {}
     superList.append([])
     superList[0].append('-')
     for kerkdienst in kerkdiensten:
@@ -240,6 +242,7 @@ def rooster_muzikanten(request):
         kerkdienstString = '{}:{}'.format(kerkdienst.start_time, kerkdienst.soort_dienst)
         superList[0].append(kerkdienstString)
         kerkdienstDict[kerkdienst] = kerkdienst.beschikbaar.all()
+        kerkdienstDictIngeroosterd[kerkdienst] = kerkdienst.ingeroosterd.all()
     counter = len(superList)
 
     for muziekTeam in muziekTeams:
@@ -248,15 +251,25 @@ def rooster_muzikanten(request):
         counter += 1
         for lid in muziekTeam.leden.all():
             superList.append([])
-            lidString = '{}:{}'.format(lid.user, lid.instrument)
+            lidString = '{}, {}'.format(lid.user, lid.instrument)
             superList[counter].append(lidString)
 
             for kerkdienst in kerkdiensten:
                 if lid in kerkdienstDict[kerkdienst]:
                     if muziekTeam in volledigTeamDict[kerkdienst]:
-                        superList[counter].append('beschikbaar (!) <input type="checkbox" name="'+str(kerkdienst.pk)+':'+str(muziekTeam.pk)+'" value="'+str(lid.pk)+'">')
+                        appendString = 'beschikbaar (!) <input type="checkbox" name="'+str(kerkdienst.pk)+':'+str(muziekTeam.pk)+'" value="'+str(lid.pk)+'">'
+                        #appendString = 'beschikbaar (!) <input type="checkbox" name="' + str(kerkdienst.pk) + '" value="' + str(lid.pk) + '">'
+                        if lid in kerkdienstDictIngeroosterd[kerkdienst]:
+                            appendString = 'beschikbaar (!) <input type="checkbox" name="'+str(kerkdienst.pk)+':'+str(muziekTeam.pk)+'" value="'+str(lid.pk)+'"checked>'
+                            #appendString = 'beschikbaar (!) <input type="checkbox" name="' + str(kerkdienst.pk) + '" value="' + str(lid.pk) + '"checked>'
+                        superList[counter].append(appendString)
                     else:
-                        superList[counter].append('beschikbaar <input type="checkbox" name="'+str(kerkdienst.pk)+':'+str(muziekTeam.pk)+'" value="'+str(lid.pk)+'">')
+                        appendString = 'beschikbaar <input type="checkbox" name="'+str(kerkdienst.pk)+':'+str(muziekTeam.pk)+'" value="'+str(lid.pk)+'">'
+                        #appendString = 'beschikbaar <input type="checkbox" name="' + str(kerkdienst.pk) + '" value="' + str(lid.pk) + '">'
+                        if lid in kerkdienstDictIngeroosterd[kerkdienst]:
+                            appendString = 'beschikbaar <input type="checkbox" name="' + str(kerkdienst.pk) + ':' + str(muziekTeam.pk) + '" value="' + str(lid.pk) + '"checked>'
+                            #appendString = 'beschikbaar <input type="checkbox" name="' + str(kerkdienst.pk) + '" value="' + str(lid.pk) + '"checked>'
+                        superList[counter].append(appendString)
                 else:
                     superList[counter].append('n/a')
 
@@ -275,8 +288,54 @@ def rooster_muzikanten(request):
 @login_required
 def rooster_muzikanten_maak(request):
     if request.method == 'POST':
+        print('postitems:')
+        """
         for item in request.POST:
             print(item)
+            if re.match("\d:\d", item):
+                reStringList = item.split(':')
+                kerkdienstToGet = get_object_or_404(Kerkdiensten, pk=int(reStringList[0]))
+                ingeroosterd = kerkdienstToGet.ingeroosterd.all()
+                print(ingeroosterd)
+                muziekTeamToGet = get_object_or_404(MuziekTeams, pk=int(reStringList[1]))
+                listToGet = request.POST.getlist(item)
+                lijst = []
+                for listItem in set(listToGet):
+                    userToGet = get_object_or_404(UserRoll, pk=int(listItem))
+                    lijst.append(userToGet)
+                for muzikant in muziekTeamToGet.leden.all():
+                    if muzikant in ingeroosterd and muzikant not in lijst:
+                        kerkdienstToGet.ingeroosterd.remove(muzikant)
+                    elif muzikant not in ingeroosterd and muzikant in lijst:
+                        kerkdienstToGet.ingeroosterd.add(muzikant)
+                    else:
+                        pass
+        """
+        for kerkdienst in Kerkdiensten.objects.all():
+            inroosterInput = []
+            for item in request.POST:
+                if re.match(''+str(kerkdienst.pk)+':\d', item):
+                    inputList = request.POST.getlist(item)
+                    for ding in inputList:
+                        inroosterInput.append(int(ding))
+            inroosterInput = set(inroosterInput)
+            for beschikbaare in kerkdienst.beschikbaar.all():
+                if beschikbaare.pk in inroosterInput and beschikbaare not in kerkdienst.ingeroosterd.all():
+                    kerkdienst.ingeroosterd.add(beschikbaare)
+                elif beschikbaare.pk not in inroosterInput and beschikbaare in kerkdienst.ingeroosterd.all():
+                    kerkdienst.ingeroosterd.remove(beschikbaare)
+
         return redirect('kerkdiensten:rooster_muzikanten')
     else:
         return redirect('kerkdiensten:rooster_muzikanten')
+
+@login_required
+def leden(request):
+    userDetails = get_object_or_404(User_details, user=request.user)
+    kerkToGet = get_object_or_404(Kerken, pk=userDetails.kerk.pk)
+    print(kerkToGet.kerk_naam)
+    ledenLijst = []
+    for userDetail in User_details.objects.all():
+        if userDetail.kerk == kerkToGet:
+            ledenLijst.append(userDetail)
+    return render(request, 'kerkdiensten/leden.html', {'leden':ledenLijst})
