@@ -1,8 +1,59 @@
 {% extends 'kerkdiensten/base_kerkdiensten.html' %}
 {% block body %}
 <h1>Ledenpagina</h1>
-<h2>Hier kan je rollen aan leden toewijzen</h2>
-{% for lid in leden %}
-{{ lid }}<br />
-{% endfor %}
+<h2>Hier kunt u de rollen van de leden aanpassen</h2>
+Selecteer eerst een lid, daarna kruist u de rollen aan die u toe wilt voegen. Als er een rol is aangekruist die het desbetreffende lid al bezit, dan wordt deze rol verwijdert van het lid.
+<form method="post" action="{% url 'kerkdiensten:managerol' %}">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <th style="padding-left:10px;"><h3>Lid</h3></th>
+            {% for rol in rollen %}
+            <th style="padding-left:10px;"><h3>{{ rol }}</h3></th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td style="padding-left:10px;">
+                <select name="selected_lid" id="leden">
+                {% for lid in leden %}
+                <option value="{{ lid.pk }}">{{ lid }}</option>
+                {% endfor %}
+                </select>
+            </td>
+            {% for rol in rollen %}
+            {% if rol.rollen == 'Muzikant' %}
+            <td style="padding-left:10px;">
+                <input name="rollen" value='{{ rol.pk }}' type="checkbox">
+                <select name="instrument" id="instrumenten">
+                    {% for instrument in instrumenten %}
+                    <option value="{{ instrument.pk }}">{{ instrument }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            {% else %}
+            <td style="padding-left:10px;"><input type="checkbox" name="rollen" value="{{ rol.pk }}"></td>
+            {% endif %}
+            {% endfor %}
+
+            <td style="padding-left:10px;"><input type="submit" value="Opslaan"></td>
+        </tr>
+    </table>
+</form>
+<br />
+<table>
+    <tr>
+        <th style="padding-left:10px;">Lid</th>
+        <th style="padding-left:10px;">Rollen</th>
+    </tr>
+    {% for lid in leden %}
+    <tr>
+        <td style="padding-left:10px;"><b>{{ lid }}</b></td>
+         <td style="padding-left:10px;">
+        {% for rol in lid.rollen_v2.all %}
+        {{ rol }}
+        {% endfor %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock body %}

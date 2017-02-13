@@ -1,6 +1,11 @@
 {% extends 'kerkdiensten/base_kerkdiensten.html' %}
 {% block body %}
 <h1>Hier zie je een dienst</h1>
+<p>
+    Hier kunt u extra informatie over de kerkdienst bekijken.<br />
+    Ga terug door op 'kerkdiensten' te klikken.
+</p>
+
 <b>Datum:</b>{{ dienst.start_time|date:"l, j F" }}<br />
 <b>Soort dienst:</b>{{ dienst.soort_dienst}}<br />
 <b>Kerk:</b>{{ dienst.kerk.kerk_naam }}<br />

@@ -2,6 +2,14 @@
 
 {% block body %}
 <h1>Pagina muzikanten rooster</h1>
+Op deze pagina kunt u het rooster voor de muzikanten maken.<br />
+Dit gebeurt ook hier weer per dienst, het opslaan gebeurt echter voor alle diensten in beeld.<br />
+Met de button 'Voeg team toe' worden automatisch alle checkboxes van het desbetreffende muziekteam aangevinkt.<br /><br />
+Als er een uitroepteken (!) Achter de beschikbaarheid staat betekent het dat het hele team aanwezig is.<br />
+Het uitroepteken komt er ook als er tenminste één zangleiding beschikbaar is en van alle instrumenten binnen het muziekteam minstens één.<br />
+Als er bijvoorbeeld alleen maar een zangleiding beschikbaar is naast de instrumenten dan komt er ook een (!) achter de naam te staan.<br />
+
+<br />
 <form method="post" action="{% url 'kerkdiensten:maak_muzikanten_rooster' %}">
     {% csrf_token %}
     <table>

@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^rooster/muzikanten/$', views.rooster_muzikanten, name='rooster_muzikanten'),
     url(r'^rooster/muzikanten/maak_rooster/$', views.rooster_muzikanten_maak, name='maak_muzikanten_rooster'),
     url(r'^leden/$', views.leden, name='leden'),
+    url(r'^leden/managerol', views.managerol, name='managerol'),
+    url(r'^voeg_kerkdienst_toe', views.add_kerkdienst, name='add_kerkdienst')
 ]

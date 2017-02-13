@@ -2,6 +2,19 @@
 {% load gen_iter %}
 {% block body %}
 <h1>Welkom op de rooster maak pagina!</h1>
+<p>
+    Op deze pagina kunt u de roosters maken en de beschikbaarheid vast zetten.<br />
+    Als u de beschikbaarheid vast zet kunnen de leden geen beschikbaarheid meer invoeren.<br />
+    U kunt natuurlijk ook de beschikbaarheid weer open zetten door op onderstaande knop te drukken.<br />
+    <br />
+    U kunt per dienst het rooster maken voor de verschillende taken.<br />
+    Ik weet niet of dit de beste aanpak, misschien is het handiger om een grote tabel te maken.<br />
+    Graag hoor ik hier iets van terug als feedback.<br />
+    <br />
+    Naast deze functies kunt u ook het rooster voor de muziekanten maken, klik hiervoor op 'Maak rooster voor muziekanten'.<br />
+</p>
+
+
 <a href="{% url 'kerkdiensten:rooster_muzikanten' %}">Maak rooster voor muzikanten</a>
 <form method="post" action="{% url 'kerkdiensten:toggle_beschikbaarheid' %}">
     {% csrf_token %}

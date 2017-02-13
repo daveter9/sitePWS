@@ -5,18 +5,52 @@
 <h2>Welkom {{ user.username }}!</h2>
 
 {% if kerk %}
-<h4>je zit in kerk: {{ kerk.kerk.kerk_naam }}</h4>
+<h4>U zit in kerk: {{ kerk.kerk.kerk_naam }}</h4>
 {% endif %}
 
+<p>
+    Zoals u ziet staan hierboven uw kerk en gebruikersnaam.<br />
+    Hieronder in de tabel vindt u alle aankomende kerkdiensten, ook kunt u de beschikbaarheid voor de rollen die toegekend zijn invullen.<br />
+    Daarnaast ziet u of en als wat u bent ingeroosterd voor een bepaalde kerkdienst.<br />
+    Het kan zijn dat je niets kan aanvinken, dit betekent dat de roostermaker heeft aangegeven dat de beschikbaarheid niet meer kan veranderen.<br />
+    De roostermaker kan dit aangeven op de website bij 'roosters'.<br />
+    Op onderstaande kerkdiensten kunt u klikken, u krijgt dan een overzicht van deze kerkdienst.<br />
+</p>
+<p>
+    De beheerder kan daarnaast ook op dit scherm kerkdiensten toevoegen.<br />
+    De manier waarop dit gebeurt spreekt redelijk voor zich.
+</p>
+
+{% for rolxy in user_details.rollen_v2.all %}
+{% if rolxy.rollen == 'Beheerder' %}
+<h4>Voeg kerkdienst toe:</h4>
+<form action="{% url 'kerkdiensten:add_kerkdienst' %}" method="post">
+    {% csrf_token %}
+    Datum:
+    <input type="date" name="datum"><br />
+    Soort dienst:
+    <select name="dienstsoort">
+        {% for dienstsoort in dienstsoorten %}
+        <option value="{{ dienstsoort.pk }}">{{ dienstsoort }}</option>
+        {% endfor %}
+    </select><br />
+    <input type="submit" value="Toevoegen!">
+
+</form>
+{% endif %}
+{% endfor %}
+
+
+<br />
 {% if kerk_keuze %}
 <h4>Kies een kerk:</h4>
 <form action="{% url 'kerkdiensten:voeg_kerk_toe' %}" method="post">
+    {% csrf_token %}
     <select name="kerk_pk">
     {% for kerk in kerk_keuze %}
     <option value="{{ kerk.pk }}">{{ kerk.kerk_naam }}</option>
     {% endfor %}
     </select><br/>
-    {% csrf_token %}
     <button type="submit">Kies kerk!</button>
 </form>
 {% endif %}

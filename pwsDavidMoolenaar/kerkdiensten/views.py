@@ -2,11 +2,13 @@ import re
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import User_details, Kerken, Rollen, Kerkdiensten, UserRoll, MuziekTeams, Instrumenten
+from .models import User_details, Kerken, Rollen, Kerkdiensten, UserRoll, MuziekTeams, Instrumenten, DienstSoorten
 from collections import Counter
 
 @login_required
 def index(request):
+    dienstsoorten  = DienstSoorten.objects.all()
+
     try:
       kerk = User_details.objects.get(user=request.user)
       kerk_diensten = Kerkdiensten.objects.all().filter(kerk=kerk.kerk)
@@ -71,7 +73,7 @@ def index(request):
                     beschikbaarheid_lijst.append((dienst.pk, beschikte.rol.rollen))
 
 
-    return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk': kerk, 'kerk_diensten': kerk_diensten, 'rollen_lijst': rollen_lijst, 'beschikbaar': beschikbaarheid_lijst, 'user_details':user_details, 'ingeroosterdDict':ingeroosterdDict})
+    return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk': kerk, 'kerk_diensten': kerk_diensten, 'rollen_lijst': rollen_lijst, 'beschikbaar': beschikbaarheid_lijst, 'user_details':user_details, 'ingeroosterdDict':ingeroosterdDict, 'dienstsoorten':dienstsoorten})
 
 @login_required
 def profile(request):
@@ -159,12 +161,12 @@ def rooster(request):
 
 @login_required()
 def rooster_maak(request):
-    print(request.POST)
+    #print(request.POST)
     for item in request.POST:
         try:
             int(item)
             postLijst = request.POST.getlist(item)
-            print(postLijst)
+            #print(postLijst)
             kerkdienstToGet = get_object_or_404(Kerkdiensten, pk=int(item))
             ingeroosterdToGet = kerkdienstToGet.ingeroosterd.all()
             xLijst = []
@@ -182,7 +184,7 @@ def rooster_maak(request):
 
             for xItem in xLijst:
                 kerkdienstToGet.ingeroosterd.add(xItem)
-            print(xLijst, ingeroosterdToGet)
+            #print(xLijst, ingeroosterdToGet)
         except:
             pass
 
@@ -281,14 +283,12 @@ def rooster_muzikanten(request):
 
         counter += 1
 
-    print(volledigTeamDict)
 
     return render(request, 'kerkdiensten/rooster_muzikanten.html', {'superList':superList})
 
 @login_required
 def rooster_muzikanten_maak(request):
     if request.method == 'POST':
-        print('postitems:')
         """
         for item in request.POST:
             print(item)
@@ -333,9 +333,53 @@ def rooster_muzikanten_maak(request):
 def leden(request):
     userDetails = get_object_or_404(User_details, user=request.user)
     kerkToGet = get_object_or_404(Kerken, pk=userDetails.kerk.pk)
-    print(kerkToGet.kerk_naam)
-    ledenLijst = []
-    for userDetail in User_details.objects.all():
-        if userDetail.kerk == kerkToGet:
-            ledenLijst.append(userDetail)
-    return render(request, 'kerkdiensten/leden.html', {'leden':ledenLijst})
+    ledenLijst = User_details.objects.all().filter(kerk=kerkToGet)
+
+    rollenLijst = Rollen.objects.all()
+    instrumentenLijst = Instrumenten.objects.all()
+    return render(request, 'kerkdiensten/leden.html', {'leden':ledenLijst, 'rollen':rollenLijst, 'instrumenten':instrumentenLijst,})
+
+@login_required
+def managerol(request):
+    try:
+        lidToEditPK = request.POST.getlist('selected_lid')[0]
+        lidToEdit = get_object_or_404(User_details, pk=lidToEditPK)
+
+        try:
+            rollen = request.POST.getlist('rollen')
+            for rol in rollen:
+                rol_object = get_object_or_404(Rollen, pk=int(rol))
+                try:
+                    userrol_object = UserRoll.objects.all().filter(user=lidToEdit.user, rol=rol_object)
+                except:
+                    pass
+                if rol_object in  lidToEdit.rollen_v2.all():
+                    lidToEdit.rollen_v2.remove(rol_object)
+                    userrol_object.delete()
+                elif rol_object == Rollen.objects.get(rollen='Muzikant'):
+                    lidToEdit.rollen_v2.add(rol_object)
+                    instrumentPK = int(request.POST.getlist('instrument')[0])
+                    instrument_object = get_object_or_404(Instrumenten, pk=instrumentPK)
+                    UserRoll.objects.create(user=lidToEdit.user, rol=rol_object, instrument=instrument_object)
+                else:
+                    lidToEdit.rollen_v2.add(rol_object)
+                    UserRoll.objects.create(user=lidToEdit.user, rol=rol_object)
+
+        except:
+            return redirect('kerkdiensten:leden')
+
+    except:
+        pass
+    return redirect('kerkdiensten:leden')
+
+@login_required
+def add_kerkdienst(request):
+    try:
+        dienstsoort = request.POST.getlist('dienstsoort')[0]
+        datum = request.POST.getlist('datum')[0]
+        dienstsoort_object = get_object_or_404(DienstSoorten, pk=int(dienstsoort))
+        user_details = get_object_or_404(User_details, user=request.user)
+        Kerkdiensten.objects.create(kerk=user_details.kerk, start_time=datum, soort_dienst=dienstsoort_object)
+    except:
+        pass
+    return redirect('kerkdiensten:index')
