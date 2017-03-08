@@ -5,6 +5,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pwsDavidMoolenaar/db.sqlite3" afterPath="$PROJECT_DIR$/pwsDavidMoolenaar/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pwsDavidMoolenaar/home/templates/home/index.html" afterPath="$PROJECT_DIR$/pwsDavidMoolenaar/home/templates/home/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pwsDavidMoolenaar/home/views.py" afterPath="$PROJECT_DIR$/pwsDavidMoolenaar/home/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/models.py" afterPath="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/dienst.html" afterPath="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/dienst.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/kerkdiensten.html" afterPath="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/kerkdiensten.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/leden.html" afterPath="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/leden.html" />
@@ -35,33 +37,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="kerkdiensten.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/kerkdiensten.html">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
-              <folding />
+            <state relative-caret-position="558">
+              <caret line="97" column="27" selection-start-line="97" selection-start-column="27" selection-end-line="97" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="leden.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/leden.html">
+      <file leaf-file-name="kerkdiensten.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/kerkdiensten.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="107" selection-start-line="4" selection-start-column="107" selection-end-line="4" selection-end-column="107" />
-              <folding>
-                <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#th#1;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#2;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#3;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#th#1;n#tr#0;n#table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="-119">
+              <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -98,12 +91,10 @@
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/home/templates/home/login.html" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/home/templates/home/register.html" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/home/urls.py" />
-        <option value="$PROJECT_DIR$/pwsDavidMoolenaar/home/views.py" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/home/models.py" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/roosterv2.html" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templatetags/__init__.py" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/admin.py" />
-        <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/models.py" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/templates/base.html" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templatetags/gen_iter.py" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/base_kerkdiensten.html" />
@@ -115,9 +106,11 @@
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/rooster_muzikanten.html" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/profile.html" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/urls.py" />
-        <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/views.py" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/kerkdiensten.html" />
         <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/leden.html" />
+        <option value="$PROJECT_DIR$/pwsDavidMoolenaar/home/views.py" />
+        <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/models.py" />
+        <option value="$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/views.py" />
       </list>
     </option>
   </component>
@@ -475,7 +468,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15143085" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -693,20 +686,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/home/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/home/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="7" column="26" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templatetags/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -763,20 +742,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/home/templates/home/base_home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="58" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/home/templates/home/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="69" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/dienst.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -822,6 +787,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/leden.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="107" selection-start-line="4" selection-start-column="107" selection-end-line="4" selection-end-column="107" />
+          <folding>
+            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#td#2;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#td#3;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#table#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/home/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -830,47 +822,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/models.py">
+    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/home/templates/home/base_home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="38" column="34" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
+        <state relative-caret-position="204">
+          <caret line="12" column="58" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/views.py">
+    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/home/templates/home/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2899">
-          <caret line="163" column="5" selection-start-line="163" selection-start-column="5" selection-end-line="163" selection-end-column="5" />
+        <state relative-caret-position="153">
+          <caret line="9" column="69" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="6" column="74" selection-start-line="6" selection-start-column="74" selection-end-line="6" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/home/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/kerkdiensten.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
+        <state relative-caret-position="-119">
           <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/templates/kerkdiensten/leden.html">
+    <entry file="file://$PROJECT_DIR$/pwsDavidMoolenaar/kerkdiensten/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="107" selection-start-line="4" selection-start-column="107" selection-end-line="4" selection-end-column="107" />
+        <state relative-caret-position="558">
+          <caret line="97" column="27" selection-start-line="97" selection-start-column="27" selection-end-line="97" selection-end-column="27" />
           <folding>
-            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#1;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#2;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#3;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#1;n#tr#0;n#table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

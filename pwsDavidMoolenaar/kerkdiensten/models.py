@@ -4,7 +4,7 @@ from django.db import models
 
 class User_details(models.Model):
     user = models.ForeignKey(User, default=1)
-    kerk = models.ForeignKey('Kerken', default=None)
+    kerk = models.ForeignKey('Kerken', default=None, blank=True, null=True)
     rollen_v2 = models.ManyToManyField('Rollen', blank=True, related_name='user_details_rollen_v2')
 
     def __str__(self):

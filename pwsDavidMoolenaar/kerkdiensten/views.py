@@ -16,6 +16,9 @@ def index(request):
     except User_details.DoesNotExist:
         kerken = Kerken.objects.all()
         return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk_keuze': kerken})
+    if user_details.kerk == None:
+        kerken = Kerken.objects.all()
+        return render(request, 'kerkdiensten/kerkdiensten.html', {'kerk_keuze': kerken})
 
     rollen_lijst = []
     for rolz in user_details.rollen_v2.all().filter(beschikbaarheid=True):
@@ -86,10 +89,18 @@ def kerk_add(request):
     kerk_pk = request.POST['kerk_pk']
     kerk_to_get = get_object_or_404(Kerken, pk=kerk_pk)
     rol_to_get = get_object_or_404(Rollen, rollen='Kerklid')
-    row = User_details(user=request.user, kerk=kerk_to_get)
-    row.save()
-    t = User_details.objects.get(user=request.user)
-    t.rollen_v2.add(rol_to_get)
+    try:
+        user_details = get_object_or_404(User_details, user=request.user)
+        print(user_details)
+        user_details.kerk = kerk_to_get
+        print('kek')
+        user_details.rollen_v2.add(rol_to_get)
+        user_details.save()
+    except:
+        row = User_details(user=request.user, kerk=kerk_to_get)
+        row.save()
+        t = User_details.objects.get(user=request.user)
+        t.rollen_v2.add(rol_to_get)
 
     return redirect('kerkdiensten:index')
 
